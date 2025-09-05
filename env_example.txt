@@ -1,0 +1,30 @@
+# Telegram Bot Token (lấy từ @BotFather)
+TELEGRAM_TOKEN=8312199538:AAF27sDBhlZGSghMkOh9YGYYzEKqr58Yv8A
+
+# Google Sheets Configuration
+SPREADSHEET_ID=your_google_spreadsheet_id_here
+
+# Admin User IDs (các ID Telegram của admin, phân cách bằng dấu phẩy)
+# Các admin đã được cấu hình sẵn: 6513278007, 7363247246, 7988655018
+# Có thể thêm admin khác bằng cách thêm ID vào đây
+ADMIN_USER_IDS=6513278007,7363247246,7988655018
+
+# AI Ollama Configuration
+OLLAMA_BASE_URL=http://localhost:11434
+OLLAMA_MODEL=llama2
+ENABLE_AI=true
+
+# Notification System Configuration
+NOTIFICATION_ENABLED=true
+AUTO_REPLY_ENABLED=true
+FOLLOW_UP_ENABLED=true
+
+# Form Builder Configuration
+FORM_BUILDER_ENABLED=true
+MAX_FORMS_PER_USER=10
+
+# Ecosystem Integration Configuration
+SOCIAL_MEDIA_ENABLED=false
+PAYMENT_ENABLED=false
+CALENDAR_ENABLED=true
+EMAIL_ENABLED=false
