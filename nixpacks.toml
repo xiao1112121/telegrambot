@@ -8,4 +8,4 @@ cmds = ["python -m pip install --user -r requirements.txt"]
 cmds = ["echo 'Build completed'"]
 
 [start]
-cmd = "python bot.py"
+cmd = "python main.py"
