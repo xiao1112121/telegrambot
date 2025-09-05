@@ -20,6 +20,7 @@ from telegram.ext import (  # pyright: ignore[reportMissingImports]
 import bot_config
 
 from google_sheets import GoogleSheetsManager
+from customer_data_manager import customer_manager
 from notification_system import (
     init_notification_system, get_notification_manager
 )
