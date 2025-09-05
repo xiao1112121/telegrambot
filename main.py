@@ -2,6 +2,7 @@ import threading
 import os
 from flask import Flask
 from bot import main as run_bot
+from create_credentials import create_credentials_from_env
 
 # Tạo Flask app cho health check
 app = Flask(__name__)
@@ -22,6 +23,9 @@ def run_telegram_bot():
     run_bot()
 
 if __name__ == '__main__':
+    # Tạo credentials.json từ biến môi trường (nếu có)
+    create_credentials_from_env()
+    
     # Chạy Flask server trong thread riêng
     flask_thread = threading.Thread(target=run_flask)
     flask_thread.daemon = True
