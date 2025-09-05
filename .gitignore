@@ -35,6 +35,7 @@ env/
 scheduled_forwards.json
 bot_config.py
 credentials.json
+credentials*.json
 *.log
 
 # Temporary files
