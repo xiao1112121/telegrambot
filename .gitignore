@@ -37,6 +37,14 @@ bot_config.py
 credentials.json
 *.log
 
+# Temporary files
+1.5
+2.0
+3.2
+3.3
+paramiko)
+root@185.175.58.10
+
 # IDE
 .vscode/
 .idea/
