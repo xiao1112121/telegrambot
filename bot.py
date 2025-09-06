@@ -20,7 +20,6 @@ from telegram.ext import (  # pyright: ignore[reportMissingImports]
 import bot_config
 
 from google_sheets import GoogleSheetsManager
-from customer_data_manager import customer_manager
 from notification_system import (
     init_notification_system, get_notification_manager
 )
@@ -623,8 +622,8 @@ async def _forward_media_to_customers(update: Update, context: ContextTypes.DEFA
         )
 
 
-async def _forward_media_to_channel(update: Update, context: ContextTypes.DEFAULT_TYPE, user_id: int):
-    """Helper function để forward media đến tất cả các kênh"""
+async def _send_message_to_channel(update: Update, context: ContextTypes.DEFAULT_TYPE, user_id: int):
+    """Helper function để gửi tin nhắn đến tất cả các kênh (không hiển thị thông tin forward)"""
     try:
         # Lấy danh sách kênh từ bot_config
         forward_channels = getattr(bot_config, 'FORWARD_CHANNELS', [])
@@ -635,28 +634,29 @@ async def _forward_media_to_channel(update: Update, context: ContextTypes.DEFAUL
             )
             return
 
-        # Chuyển tiếp media đến tất cả các kênh
+        # Gửi tin nhắn đến tất cả các kênh (không hiển thị thông tin forward)
         success_count = 0
         failed_count = 0
         failed_channels = []
 
         for channel_id in forward_channels:
             try:
+                # Sử dụng forward_message để giữ emoji động
                 await context.bot.forward_message(
                     chat_id=channel_id,
                     from_chat_id=update.effective_chat.id,
                     message_id=update.message.message_id
                 )
                 success_count += 1
-                logger.info(f"✅ Đã forward media đến kênh {channel_id}")
+                logger.info(f"✅ Đã forward tin nhắn đến kênh {channel_id} (giữ emoji động)")
 
             except Exception as e:
                 failed_count += 1
                 failed_channels.append(f"{channel_id} ({str(e)})")
-                logger.error(f"❌ Lỗi copy media đến kênh {channel_id}: {e}")
+                logger.error(f"❌ Lỗi gửi tin nhắn đến kênh {channel_id}: {e}")
 
         # Thông báo kết quả
-        result_message = '✅ **ĐÃ CHUYỂN TIẾP MEDIA ĐẾN {} KÊNH!**\n\n'.format(len(forward_channels))
+        result_message = '✅ **ĐÃ GỬI TIN NHẮN ĐẾN {} KÊNH!**\n\n'.format(len(forward_channels))
         result_message += '**Kết quả:**\n'
         result_message += '✅ **Thành công:** {} kênh\n'.format(success_count)
 
@@ -1486,15 +1486,15 @@ async def handle_media_message(update: Update, context: ContextTypes.DEFAULT_TYP
                             message_id=update.message.message_id
                         )
                         success_count += 1
-                        logger.info(f"✅ Đã forward media đến kênh {channel_id}")
+                        logger.info(f"✅ Đã forward media đến kênh {channel_id} (giữ emoji động)")
 
                     except Exception as e:
                         failed_count += 1
                         failed_channels.append(f"{channel_id} ({str(e)})")
-                        logger.error(f"❌ Lỗi forward media đến kênh {channel_id}: {e}")
+                        logger.error(f"❌ Lỗi gửi media đến kênh {channel_id}: {e}")
 
                 # Thông báo kết quả
-                result_message = f'✅ **ĐÃ CHUYỂN TIẾP MEDIA ĐẾN {len(selected_channels)} KÊNH ĐÃ CHỌN!**\n\n'
+                result_message = f'✅ **ĐÃ GỬI MEDIA ĐẾN {len(selected_channels)} KÊNH ĐÃ CHỌN!**\n\n'
                 result_message += '**Kết quả:**\n'
                 result_message += f'✅ **Thành công:** {success_count} kênh\n'
 
@@ -1506,7 +1506,7 @@ async def handle_media_message(update: Update, context: ContextTypes.DEFAULT_TYP
                     if len(failed_channels) > 5:
                         result_message += f'• ... và {len(failed_channels) - 5} kênh khác\n'
 
-                result_message += '\n**Lưu ý:** Media đã được forward với định dạng gốc, giữ nguyên emoji động.'
+                result_message += '\n**Lưu ý:** Media đã được gửi với định dạng gốc, giữ nguyên emoji động.'
 
                 await update.message.reply_text(result_message)
 
@@ -1840,15 +1840,15 @@ async def handle_text_message(update: Update, context: ContextTypes.DEFAULT_TYPE
                             message_id=update.message.message_id
                         )
                         success_count += 1
-                        logger.info(f"✅ Đã forward tin nhắn đến kênh {channel_id}")
+                        logger.info(f"✅ Đã forward tin nhắn đến kênh {channel_id} (giữ emoji động)")
 
                     except Exception as e:
                         failed_count += 1
                         failed_channels.append(f"{channel_id} ({str(e)})")
-                        logger.error(f"❌ Lỗi copy tin nhắn đến kênh {channel_id}: {e}")
+                        logger.error(f"❌ Lỗi gửi tin nhắn đến kênh {channel_id}: {e}")
 
                 # Thông báo kết quả
-                result_message = '✅ **ĐÃ CHUYỂN TIẾP TIN NHẮN ĐẾN {} KÊNH!**\n\n'.format(len(forward_channels))
+                result_message = '✅ **ĐÃ GỬI TIN NHẮN ĐẾN {} KÊNH!**\n\n'.format(len(forward_channels))
                 result_message += '**Kết quả:**\n'
                 result_message += '✅ **Thành công:** {} kênh\n'.format(success_count)
 
@@ -1914,15 +1914,15 @@ async def handle_text_message(update: Update, context: ContextTypes.DEFAULT_TYPE
                             message_id=update.message.message_id
                         )
                         success_count += 1
-                        logger.info(f"✅ Đã forward tin nhắn đến kênh {channel_id}")
+                        logger.info(f"✅ Đã forward tin nhắn đến kênh {channel_id} (giữ emoji động)")
 
                     except Exception as e:
                         failed_count += 1
                         failed_channels.append(f"{channel_id} ({str(e)})")
-                        logger.error(f"❌ Lỗi forward tin nhắn đến kênh {channel_id}: {e}")
+                        logger.error(f"❌ Lỗi gửi tin nhắn đến kênh {channel_id}: {e}")
 
                 # Thông báo kết quả
-                result_message = f'✅ **ĐÃ CHUYỂN TIẾP TIN NHẮN ĐẾN {len(selected_channels)} KÊNH ĐÃ CHỌN!**\n\n'
+                result_message = f'✅ **ĐÃ GỬI TIN NHẮN ĐẾN {len(selected_channels)} KÊNH ĐÃ CHỌN!**\n\n'
                 result_message += '**Kết quả:**\n'
                 result_message += f'✅ **Thành công:** {success_count} kênh\n'
 
