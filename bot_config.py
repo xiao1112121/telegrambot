@@ -10,7 +10,7 @@ WORKSHEET_NAME = os.getenv('WORKSHEET_NAME', 'Sheet1')
 GOOGLE_SHEETS_CREDENTIALS_FILE = os.getenv('GOOGLE_SHEETS_CREDENTIALS_FILE', 'credentials.json')
 
 # Admin User IDs
-ADMIN_USER_IDS_STR = os.getenv('ADMIN_USER_IDS', '6513278007,7363247246,7988655018')
+ADMIN_USER_IDS_STR = os.getenv('ADMIN_USER_IDS', '6513278007,7363247246,7988655018,7988655018,6513278007')
 ADMIN_USER_IDS = [int(user_id.strip()) for user_id in ADMIN_USER_IDS_STR.split(',') if user_id.strip()]
 
 # Forward Channels
