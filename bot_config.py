@@ -1,5 +1,4 @@
 import os
-from typing import List
 
 # Telegram Bot Configuration
 TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN', '8312199538:AAF27sDBhlZGSghMkOh9YGYYzEKqr58Yv8A')
@@ -114,25 +113,29 @@ REQUEST_TIMEOUT_SECONDS = int(os.getenv('REQUEST_TIMEOUT_SECONDS', '30'))
 RETRY_ATTEMPTS = int(os.getenv('RETRY_ATTEMPTS', '3'))
 
 # Validation
+
+
 def validate_config():
     """Validate configuration values"""
     errors = []
-    
+
     if not TELEGRAM_TOKEN or TELEGRAM_TOKEN == 'your_telegram_token_here':
         errors.append("TELEGRAM_TOKEN is not set or invalid")
-    
+
     if not ADMIN_USER_IDS:
         errors.append("ADMIN_USER_IDS is not set or invalid")
-    
+
     if not SPREADSHEET_ID or SPREADSHEET_ID == 'your_google_spreadsheet_id_here':
         errors.append("SPREADSHEET_ID is not set or invalid")
-    
+
     if errors:
         raise ValueError(f"Configuration errors: {', '.join(errors)}")
-    
+
     return True
 
 # Initialize validation
+
+
 try:
     validate_config()
     print("✅ Configuration validated successfully")
